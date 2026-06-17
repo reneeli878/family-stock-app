@@ -1,8 +1,15 @@
 <template>
   <div class="app-shell">
     <header class="app-header">
-      <h1>家庭庫存</h1>
-      <p>把家裡的小倉庫變成有秩序的補給站</p>
+      <div>
+        <p class="eyebrow">Family Stock</p>
+        <h1>家庭庫存</h1>
+        <p>管理庫存、效期與生活開銷</p>
+      </div>
+
+      <div class="header-badge">
+        📦
+      </div>
     </header>
 
     <main class="app-main">
@@ -10,11 +17,11 @@
     </main>
 
     <nav class="bottom-nav">
-      <RouterLink to="/">首頁</RouterLink>
-      <RouterLink to="/inventory">庫存</RouterLink>
-      <RouterLink to="/add">新增</RouterLink>
-      <RouterLink to="/shopping">採買</RouterLink>
-      <RouterLink to="/settings">設定</RouterLink>
+      <RouterLink to="/">🏠<span>首頁</span></RouterLink>
+      <RouterLink to="/inventory">📦<span>庫存</span></RouterLink>
+      <RouterLink to="/add" class="add-link">＋</RouterLink>
+      <RouterLink to="/records">🧾<span>紀錄</span></RouterLink>
+      <RouterLink to="/shopping">🛒<span>採買</span></RouterLink>
     </nav>
   </div>
 </template>
