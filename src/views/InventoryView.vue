@@ -45,7 +45,16 @@
 
       <div class="detail-row">
         <span>購買：{{ item.purchaseDate || '未填' }}</span>
-        <span>效期：{{ item.expiryDate || '未填' }}</span>
+        <span
+            v-if="item.expiryDate"
+            :class="expiryClass(item.expiryDate)"
+            >
+            {{ getExpiryText(item.expiryDate) }}
+            </span>
+
+            <span v-else>
+            無效期
+            </span>
       </div>
 
       <button class="delete-btn" @click="inventory.deleteItem(item.id)">
@@ -81,6 +90,36 @@ const filteredItems = computed(() => {
     return matchKeyword && matchCategory
   })
 })
+
+function getRemainingDays(expiryDate) {
+  const today = new Date()
+  const expiry = new Date(expiryDate)
+
+  return Math.ceil(
+    (expiry - today) /
+    (1000 * 60 * 60 * 24)
+  )
+}
+
+function getExpiryText(expiryDate) {
+  const days = getRemainingDays(expiryDate)
+
+  if (days < 0) {
+    return `已過期 ${Math.abs(days)} 天`
+  }
+
+  return `剩餘 ${days} 天`
+}
+
+function expiryClass(expiryDate) {
+  const days = getRemainingDays(expiryDate)
+
+  if (days < 0) return 'expired'
+  if (days <= 7) return 'danger'
+  if (days <= 30) return 'warning'
+
+  return 'safe'
+}
 </script>
 
 <style scoped>
@@ -169,5 +208,28 @@ const filteredItems = computed(() => {
   padding: 10px;
   background: #ffecec;
   color: #d33;
+}
+
+.safe {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.warning {
+  color: #d97706;
+  font-weight: bold;
+}
+
+.danger {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.expired {
+  color: white;
+  background: #dc2626;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 </style>
